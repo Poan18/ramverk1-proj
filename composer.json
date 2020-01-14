@@ -1,6 +1,6 @@
 {
-    "name" : "anax/noname",
-    "description": "A me page for the ramverk1 course.",
+    "name" : "pon/kodhyddan",
+    "description": "Webpage for KodHydden, created for BTH course Ramverk1.",
     "license": "MIT",
     "minimum-stability": "beta",
     "prefer-stable": true,
@@ -12,7 +12,8 @@
         "anax/anax-ramverk1-me": "^1.0.0",
         "anax/htmlform": "^2.0",
         "anax/database-active-record": "^2.0",
-        "anax/textfilter": "^1.2"
+        "anax/textfilter": "^1.2",
+        "michelf/php-markdown": "^1.9"
     },
     "require-dev": {
         "phpunit/phpunit": "^7"

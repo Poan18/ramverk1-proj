@@ -81,8 +81,14 @@ class CreateUserForm extends FormModel
         // Save to database
         $user = new User();
         $user->setDb($this->di->get("dbqb"));
+        $disUser = $user->findWhere("acronym = ?", $acronym);
+        if ($disUser->id != null) {
+            $this->form->addOutput("Acronym är redan tagen.");
+            return false;
+        };
         $user->created = $createdDate;
         $user->acronym = $acronym;
+        $user->score = 0;
         $user->setPassword($password);
         $user->email = $email;
         $user->save();

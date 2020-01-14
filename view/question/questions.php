@@ -1,8 +1,6 @@
 <?php
 
 namespace Anax\View;
-$filter   = new \Anax\TextFilter\TextFilter();
-$parsed   = $filter->parse($question->text, ["shortcode", "markdown"]);
 ?>
 
 <div class="showQuestion">
@@ -15,7 +13,17 @@ $parsed   = $filter->parse($question->text, ["shortcode", "markdown"]);
             <a href="<?= url("user/profile/{$userInfo->id}"); ?>"> <?= $userInfo->acronym ?></a>
         </div>
     </div>
-    <div class="userQuestText">
-        <p><?= $parsed->text ?></p>
+    <div class="questPreview">
+        <div class="questVotes">
+            <p><b>Betyg</b></p>
+            <p><b><?=$question->votes?></b></p>
+        </div>
+        <div class="questText">
+            <p><?= $parsedText ?></p>
+        </div>
+        <div class="questAnswers">
+            <p><b>Svar</b></p>
+            <p><b><?=$answerSum[0]->num?></b></p>
+        </div>
     </div>
 </div>

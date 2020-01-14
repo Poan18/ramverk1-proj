@@ -2,7 +2,7 @@
 
 namespace Anax\View;
 ?>
-<h3>Trendiga taggar</h3>
+<h3 class="startTitle">Trendiga taggar</h3>
 <div class="tags">
 <?php foreach ($allTags as $Tag) : ?>
     <tr>

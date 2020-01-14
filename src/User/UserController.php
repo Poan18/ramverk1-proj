@@ -9,6 +9,9 @@ use Pon\User\HTMLForm\EditUserForm;
 use Pon\User\HTMLForm\CreateUserForm;
 use Pon\Question\Question;
 use Pon\Question\Answer;
+use Pon\Question\Comment;
+use Pon\Question\UserVotes;
+use Pon\Filter\Filter;
 
 // use Anax\Route\Exception\ForbiddenException;
 // use Anax\Route\Exception\NotFoundException;
@@ -30,17 +33,17 @@ class UserController implements ContainerInjectableInterface
 
 
 
-    // /**
-    //  * The initialize method is optional and will always be called before the
-    //  * target method/action. This is a convienient method where you could
-    //  * setup internal properties that are commonly used by several methods.
-    //  *
-    //  * @return void
-    //  */
-    // public function initialize() : void
-    // {
-    //     ;
-    // }
+    /**
+     * The initialize method is optional and will always be called before the
+     * target method/action. This is a convienient method where you could
+     * setup internal properties that are commonly used by several methods.
+     *
+     * @return void
+     */
+    public function initialize() : void
+    {
+        $this->filter = new Filter();
+    }
 
 
 
@@ -79,8 +82,30 @@ class UserController implements ContainerInjectableInterface
         $user->setDb($this->di->get("dbqb"));
         $user->find('id', $id);
 
+        if ($user->score <= 0) {
+            $rank = "html";
+        } else if ($user->score <= 5) {
+            $rank = "python";
+        } else if ($user->score <= 20) {
+            $rank = "javascript";
+        } else if ($user->score <= 40) {
+            $rank = "PHP";
+        } else if ($user->score <= 60) {
+            $rank = "Java";
+        } else if ($user->score <= 100) {
+            $rank = "R";
+        };
+
+        $votes = new UserVotes();
+        $votes->setDb($this->di->get("dbqb"));
+        $upVotes = $votes->selectWhere("COUNT(*) as num", "userId = ? AND voted = ?", [$id, "up"]);
+        $downVotes = $votes->selectWhere("COUNT(*) as num", "userId = ? AND voted = ?", [$id, "down"]);
+
         $page->add("user/userProfile", [
             "userInfo" => $user,
+            "rank" => $rank,
+            "upVotes" => $upVotes ?? 0,
+            "downVotes" => $downVotes ?? 0,
         ]);
 
         $page->add("user/userQuestionStart");
@@ -89,9 +114,11 @@ class UserController implements ContainerInjectableInterface
         $question->setDb($this->di->get("dbqb"));
         $Questions = $question->findAllWhere("userId = ?", $id);
         foreach($Questions as $quest) {
+            $parsedText = $this->filter->markdown($quest->text);
             $page->add("user/userQuestion", [
                 "question" => $quest,
                 "userInfo" => $user,
+                "parsedText" => $parsedText,
             ]);
         }
 
@@ -105,15 +132,36 @@ class UserController implements ContainerInjectableInterface
             $question = new Question();
             $question->setDb($this->di->get("dbqb"));
             $question->find("id", $answer->questionid);
+            $parsedText = $this->filter->markdown($answer->text);
             $page->add("user/userAnswer", [
                 "answer" => $answer,
                 "userInfo" => $user,
                 "question" => $question,
+                "parsedText" => $parsedText,
+            ]);
+        }
+
+        $page->add("user/userCommentStart");
+
+        $comment = new Comment();
+        $comment->setDb($this->di->get("dbqb"));
+        $Comments = $comment->findAllWhere("userId = ?", $id);
+
+        foreach($Comments as $comment) {
+            $question = new Question();
+            $question->setDb($this->di->get("dbqb"));
+            $question->find("id", $comment->questionid);
+            $parsedText = $this->filter->markdown($comment->text);
+            $page->add("user/userAnswer", [
+                "answer" => $comment,
+                "userInfo" => $user,
+                "question" => $question,
+                "parsedText" => $parsedText,
             ]);
         }
 
         return $page->render([
-            "title" => $id,
+            "title" => $user->acronym,
         ]);
     }
 
@@ -173,7 +221,7 @@ class UserController implements ContainerInjectableInterface
         ]);
 
         return $page->render([
-            "title" => "A create user page",
+            "title" => "Skapa en användare",
         ]);
     }
 
@@ -206,7 +254,7 @@ class UserController implements ContainerInjectableInterface
         ]);
 
         return $page->render([
-            "title" => "A create user page",
+            "title" => "Redigera användare",
         ]);
     }
 

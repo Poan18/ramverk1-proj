@@ -2,12 +2,12 @@
 
 namespace Pon\User;
 
-use Anax\DatabaseActiveRecord\ActiveRecordModel;
+use Pon\Barm\BonusActiveRecordModel;
 
 /**
  * A database driven model.
  */
-class User extends ActiveRecordModel
+class User extends BonusActiveRecordModel
 {
     /**
      * @var string $tableName name of the database table.
@@ -23,6 +23,7 @@ class User extends ActiveRecordModel
     public $acronym;
     public $password;
     public $created;
+    public $score;
     public $updated;
     public $deleted;
     public $active;

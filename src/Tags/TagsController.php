@@ -5,7 +5,9 @@ namespace Pon\Tags;
 use Anax\Commons\ContainerInjectableInterface;
 use Anax\Commons\ContainerInjectableTrait;
 use Pon\Question\Question;
+use Pon\Question\Answer;
 use Pon\User\User;
+use Pon\Filter\Filter;
 
 // use Anax\Route\Exception\ForbiddenException;
 // use Anax\Route\Exception\NotFoundException;
@@ -27,17 +29,17 @@ class TagsController implements ContainerInjectableInterface
 
 
 
-    // /**
-    //  * The initialize method is optional and will always be called before the
-    //  * target method/action. This is a convienient method where you could
-    //  * setup internal properties that are commonly used by several methods.
-    //  *
-    //  * @return void
-    //  */
-    // public function initialize() : void
-    // {
-    //     ;
-    // }
+    /**
+     * The initialize method is optional and will always be called before the
+     * target method/action. This is a convienient method where you could
+     * setup internal properties that are commonly used by several methods.
+     *
+     * @return void
+     */
+    public function initialize() : void
+    {
+        $this->filter = new Filter();
+    }
 
 
 
@@ -71,7 +73,7 @@ class TagsController implements ContainerInjectableInterface
         ]);
 
         return $page->render([
-            "title" => "A index page",
+            "title" => "Alla taggar",
         ]);
     }
 
@@ -101,9 +103,15 @@ class TagsController implements ContainerInjectableInterface
             $Question->setDb($this->di->get("dbqb"));
             $question = $Question->find('id', $qst->questionid);
             $userInfo = $user->find('id', $question->userId);
+            $answer = new Answer();
+            $answer->setDb($this->di->get("dbqb"));
+            $answerSum = $answer->selectWhere("count(*) as num", "questionid = ?", $qst->id);
+            $parsedText = $this->filter->markdown($qst->text);
             $page->add("question/questions", [
                 "question" => $question,
                 "userInfo" => $userInfo,
+                "answerSum" => $answerSum,
+                "parsedText" => $parsedText,
             ]);
         };
 

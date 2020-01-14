@@ -2,12 +2,12 @@
 
 namespace Pon\Question;
 
-use Anax\DatabaseActiveRecord\ActiveRecordModel;
+use Pon\Barm\BonusActiveRecordModel;
 
 /**
  * A database driven model.
  */
-class Tag extends ActiveRecordModel
+class Tag extends BonusActiveRecordModel
 {
     /**
      * @var string $tableName name of the database table.

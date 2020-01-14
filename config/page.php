@@ -14,7 +14,7 @@ return [
         "data" => [
             "baseTitle" => " | KodHyddan",
             "bodyClass" => null,
-            "favicon" => "favicon.ico",
+            "favicon" => "code_hut.png",
             "htmlClass" => null,
             "lang" => "sv",
             "stylesheets" => [

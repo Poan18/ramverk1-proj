@@ -82,6 +82,7 @@ class CreateQuestionForm extends FormModel
         $question->title = $title;
         $question->created = $createdDate;
         $question->text = $text;
+        $question->votes = 0;
         $question->userId = $userId;
         $question->save();
 
@@ -99,6 +100,13 @@ class CreateQuestionForm extends FormModel
             $TagQuestion->save();
         }
         $this->form->addOutput($question->id);
+
+        $user = new User();
+        $user->setDb($this->di->get("dbqb"));
+        $user->find("id", $userId);
+        $user->score = $user->score + 1;
+        $user->save();
+        
         return true;
     }
 }

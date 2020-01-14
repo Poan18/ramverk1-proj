@@ -7,7 +7,7 @@ namespace Anax\View;
     <a href="<?= url("question/create") ?>">Skapa fråga</a>
 </div>
 <?php if (!$allQuestions) : ?>
-    <p>There are no questions.</p>
+    <p class="errTxt">Det finns inga frågor.</p>
     <?php
     return;
 endif;

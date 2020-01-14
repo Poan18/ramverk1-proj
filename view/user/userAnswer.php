@@ -1,8 +1,6 @@
 <?php
 
 namespace Anax\View;
-$filter   = new \Anax\TextFilter\TextFilter();
-$parsed   = $filter->parse($answer->text, ["shortcode", "markdown"]);
 ?>
 
 <div class="userQuestion">
@@ -10,6 +8,6 @@ $parsed   = $filter->parse($answer->text, ["shortcode", "markdown"]);
         <a class="userQuestTitle" href="<?= url("question/view/{$question->id}"); ?>"> <?= $question->title ?></a>
     </div>
     <div class="userQuestText">
-        <p><?= $parsed->text ?></p>
+        <p><?= $parsedText ?></p>
     </div>
 </div>

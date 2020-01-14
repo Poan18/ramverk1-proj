@@ -4,7 +4,7 @@ namespace Anax\View;
 ?>
 <h1>Allt inom: <?= $tag ?></h1>
 <?php if (!$questions) : ?>
-    <p>There are no questions.</p>
+    <p>Det finns inga frågor.</p>
     <?php
     return;
 endif;
@@ -22,7 +22,7 @@ endif;
             <a href="<?= url("question/view/{$question[0]->id}"); ?>"> <?= $question[0]->title ?></a>
         </td>
         <td><?= $question[0]->user ?></td>
-        <td><?= $question[0]->text ?></td>
+        <td><?= $parsedText ?></td>
     </tr>
     <?php endforeach; ?>
 </table>

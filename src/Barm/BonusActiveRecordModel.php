@@ -36,6 +36,31 @@ class BonusActiveRecordModel extends ActiveRecordModel
      * Find and return all matching the search criteria.
      *
      *
+     * The `$value` can be a single value or an array of values.
+     *
+     * @param string  $orderBy for building the order by part of the query.
+     * @param string  $limit for building the LIMIT part of the query.
+     *
+     * @return array of object of this class
+     */
+    public function findAllWhereOrderBy($orderBy, $where, $value, $limit = 1000)
+    {
+        $this->checkDb();
+        $params = is_array($value) ? $value : [$value];
+        return $this->db->connect()
+            ->select()
+            ->from($this->tableName)
+            ->orderBy($orderBy)
+            ->where($where)
+            ->limit($limit)
+            ->execute($params)
+            ->fetchAllClass(get_class($this));
+    }
+
+    /**
+     * Find and return all matching the search criteria.
+     *
+     *
      *
      * @param string  $orderBy for building the order by part of the query.
      * @param string  $groupBy for building the group by part of the query.
@@ -45,7 +70,7 @@ class BonusActiveRecordModel extends ActiveRecordModel
      *
      * @return array of object of this class
      */
-    public function findAllOrderByGroupBy($orderBy, $groupBy, $limit = 10000, $select = "*")
+    public function findAllOrderByGroupBy($orderBy, $groupBy, $limit = 1000, $select = "*")
     {
         $this->checkDb();
         return $this->db->connect()
@@ -55,6 +80,29 @@ class BonusActiveRecordModel extends ActiveRecordModel
             ->orderBy($orderBy)
             ->limit($limit)
             ->execute()
+            ->fetchAllClass(get_class($this));
+    }
+
+
+    /**
+     * Select all where
+     *
+     *
+     *
+     * @param string  $orderBy for building the order by part of the query.
+     * @param string  $limit for building the LIMIT part of the query.
+     *
+     * @return array of object of this class
+     */
+    public function selectWhere($select, $where, $value)
+    {
+        $this->checkDb();
+        $params = is_array($value) ? $value : [$value];
+        return $this->db->connect()
+            ->select($select)
+            ->from($this->tableName)
+            ->where($where)
+            ->execute($params)
             ->fetchAllClass(get_class($this));
     }
 
@@ -84,5 +132,7 @@ class BonusActiveRecordModel extends ActiveRecordModel
             ->execute()
             ->fetchAllClass(get_class($this));
     }
+
+
 
 }

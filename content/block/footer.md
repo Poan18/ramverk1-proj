@@ -1,1 +1,1 @@
-© KodHyddan - 2020
+KodHyddan © 2020

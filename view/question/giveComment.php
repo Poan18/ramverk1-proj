@@ -1,8 +1,6 @@
 <?php
 
 namespace Anax\View;
-$filter   = new \Anax\TextFilter\TextFilter();
-$parsed   = $filter->parse($replyTo->text, ["shortcode", "markdown"]);
 ?>
 <h1>Lägg en kommentar</h1>
 <div class="answer">
@@ -11,7 +9,7 @@ $parsed   = $filter->parse($replyTo->text, ["shortcode", "markdown"]);
         <img class="aUserImg" src="<?= "https://www.gravatar.com/avatar/" . md5(strtolower(trim($userInfo->email))) . "?d=" . urlencode("https://www.gravatar.com/avatar") . "&s=" . 150; ?>" alt="" />
         <p class="qCreated"><?= $replyTo->created ?></p>
     </div>
-    <p class="aText"><?= $parsed->text ?></p>
+    <p class="aText"><?= $parsedText ?></p>
 </div>
 
 <?= $content ?>

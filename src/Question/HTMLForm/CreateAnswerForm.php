@@ -67,9 +67,17 @@ class CreateAnswerForm extends FormModel
         $answer->userId = $userId;
         $answer->created = $createdDate;
         $answer->text = $text;
+        $answer->votes = 0;
         $answer->questionid = $id;
 
         $answer->save();
+
+        $user = new User();
+        $user->setDb($this->di->get("dbqb"));
+        $user->find("id", $userId);
+        $user->score = $user->score + 1;
+        $user->save();
+
 
         return true;
     }

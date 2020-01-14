@@ -2,12 +2,12 @@
 
 namespace Pon\Question;
 
-use Anax\DatabaseActiveRecord\ActiveRecordModel;
+use Pon\Barm\BonusActiveRecordModel;
 
 /**
  * A database driven model.
  */
-class Answer extends ActiveRecordModel
+class Answer extends BonusActiveRecordModel
 {
     /**
      * @var string $tableName name of the database table.
@@ -23,8 +23,28 @@ class Answer extends ActiveRecordModel
     public $userId;
     public $text;
     public $questionid;
+    public $accepted;
+    public $votes;
     public $created;
     public $updated;
     public $deleted;
+
+
+    /**
+     * Save vote
+     *
+     *
+     * @return void
+     */
+    public function saveVote($userId, $votedId, $votedType, $voted, $di)
+    {
+        $userVotes = new UserVotes();
+        $userVotes->setDb($di->get("dbqb"));
+        $userVotes->userId = $userId;
+        $userVotes->votedId = $votedId;
+        $userVotes->votedType = $votedType;
+        $userVotes->voted = $voted;
+        $userVotes->save();
+    }
 
 }

@@ -23,7 +23,26 @@ class Question extends BonusActiveRecordModel
     public $userId;
     public $title;
     public $text;
+    public $votes;
     public $created;
     public $updated;
     public $deleted;
+
+
+    /**
+     * Save vote
+     *
+     *
+     * @return void
+     */
+    public function saveVote($userId, $votedId, $votedType, $voted, $di)
+    {
+        $userVotes = new UserVotes();
+        $userVotes->setDb($di->get("dbqb"));
+        $userVotes->userId = $userId;
+        $userVotes->votedId = $votedId;
+        $userVotes->votedType = $votedType;
+        $userVotes->voted = $voted;
+        $userVotes->save();
+    }
 }

@@ -99,14 +99,13 @@ class CreateQuestionForm extends FormModel
             $TagQuestion->text = str_replace(' ', '', strtolower($tag));
             $TagQuestion->save();
         }
-        $this->form->addOutput($question->id);
 
         $user = new User();
         $user->setDb($this->di->get("dbqb"));
         $user->find("id", $userId);
         $user->score = $user->score + 1;
         $user->save();
-        
+        $this->form->addOutput("Frågan har skapats.");
         return true;
     }
 }

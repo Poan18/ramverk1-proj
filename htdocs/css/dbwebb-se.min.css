@@ -194,7 +194,7 @@ h1 {
     background-color: black;
     color: white;
     padding: 5px;
-    overflow:auto;
+    overflow: hidden;
 }
 
 .userQuestTitle a {
@@ -332,10 +332,14 @@ h1 {
     text-align: center;
 }
 
-.fieldset {
+fieldset {
     width: 100%;
 }
 
 .errTxt {
     text-align: center;
+}
+
+.region-main {
+    margin-left: 13%;
 }

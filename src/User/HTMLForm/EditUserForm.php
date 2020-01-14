@@ -103,6 +103,7 @@ class EditUserForm extends FormModel
         $user->email = $email;
         $user->updated = $updatedDate;
         $user->save();
+        $this->form->addOutput("Din information har uppdaterats.");
 
         return true;
     }

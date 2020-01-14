@@ -168,7 +168,7 @@ class QuestionController implements ContainerInjectableInterface
             $user = new User();
             $user->setDb($this->di->get("dbqb"));
             $userInfo = $user->find('id', $oneComment->userId);
-            $parsedText = $this->filter->markdown($comment->text);
+            $parsedText = $this->filter->markdown($oneComment->text);
             $page->add("question/showComment", [
                 "comment" => $oneComment,
                 "userInfo" => $userInfo,

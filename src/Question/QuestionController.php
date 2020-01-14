@@ -193,6 +193,7 @@ class QuestionController implements ContainerInjectableInterface
             $userInfo = $user->find('id', $answer->userId);
             $parsedText = $this->filter->markdown($answer->text);
             $page->add("question/answer", [
+                "theQuestion" => $theQuestion,
                 "answer" => $answer,
                 "userInfo" => $userInfo,
                 "canVote" => $noUser ?? "",

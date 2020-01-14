@@ -39,7 +39,7 @@ namespace Anax\View;
     <div class="aText"><?= $parsedText ?></div>
     <a class="commentBtn" href="<?= url("question/comment?question={$answer->questionid}&answer={$answer->id}"); ?>">Kommentera</a>
 
-    <div class="acceptBtn" <?php if($loggedIn != $answer->userId) { echo 'hidden'; } ?>>
+    <div class="acceptBtn" <?php if($loggedIn != $theQuestion->userId) { echo 'hidden'; } ?>>
         <form action=<?=url("question/accept")?> method="get">
             <input hidden name="questionId" value="<?=$answer->questionid?>">
             <input hidden name="answerId" value="<?=$answer->id?>">
